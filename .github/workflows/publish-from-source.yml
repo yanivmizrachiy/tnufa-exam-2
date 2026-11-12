@@ -6,8 +6,8 @@ on:
       - .github/workflows/publish-from-source.yml
   workflow_dispatch:
   schedule:
-    # Recheck the single source of truth four times a day.
-    - cron: '17 */6 * * *'
+    # Lightweight source revision check every hour; build/deploy only if main changed.
+    - cron: '17 * * * *'
 
 permissions:
   contents: write
