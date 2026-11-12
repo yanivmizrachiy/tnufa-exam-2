@@ -84,12 +84,10 @@ jobs:
         working-directory: Tnufa
         run: python exams/tnufa-exam-2/build.py --student --snapshots
 
-      - name: Verify release gate before any write
+      - name: Verify all student and scoring PDFs before any write
         if: steps.source.outputs.changed == 'true'
         working-directory: Tnufa
-        env:
-          SITE_DIR: ${{ github.workspace }}/site
-        run: python exams/tnufa-exam-2/tools/publish.py --dry-run
+        run: python exams/tnufa-exam-2/tools/publish.py --verify-only
 
       - name: Publish the exact verified artifacts to this repository
         if: steps.source.outputs.changed == 'true'
