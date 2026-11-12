@@ -47,18 +47,28 @@
   ],
   "pdf": {
     "file": "STUDENT.pdf",
-    "sha256": "sha256-6e4baa7bbc71d479910539c3c82fcf842f7fc14727a69258d1f0d1df7ce1aeae",
+    "sha256": "sha256-4c7ae89511dbb1a32eef4aff819434cfc40a9f72fda57e8932bd266bfee48493",
     "pageCount": 17
   },
   "answerKey": {
     "file": "ANSWER_KEY.pdf",
-    "sha256": "sha256-5c9539a259b9fc606d3ef68d17f6e160b7ace3749baa3b3efd38bafe47eab5ad",
+    "sha256": "sha256-7595bb8824923ce74ea94f88b555a2229be6122008f6ae0ebcf4393ded727de5",
     "pageCount": 1
   },
   "examWithKey": {
     "file": "EXAM_WITH_KEY.pdf",
-    "sha256": "sha256-88b865f64e77015e376c348af73054972f6f2bb2e48c20cd51922638013b234c",
+    "sha256": "sha256-ade51c4627a0e629fb0a008a6fe33be00129699dfc8f32df7dd6180482784eb8",
     "pageCount": 18
   },
-  "builtAt": "2026-11-12T19:24:21Z"
+  "answerKeyA4": {
+    "file": "ANSWER_KEY_A4.pdf",
+    "sha256": "sha256-5754afd4ec7c29889591a218afc85e59b2d40f5eecf89a2ee8d533dc73c686c2",
+    "pageCount": 8
+  },
+  "examWithKeyA4": {
+    "file": "EXAM_WITH_KEY_A4.pdf",
+    "sha256": "sha256-9021504e272f5a6dad5ecfba2a1ccbe6cd9282a3090dcd8639fa1e10814752f7",
+    "pageCount": 25
+  },
+  "builtAt": "2026-11-12T20:06:40Z"
 }
