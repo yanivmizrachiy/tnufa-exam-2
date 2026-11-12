@@ -1,7 +1,7 @@
 {
   "id": "tnufa-exam-2",
   "name": "מבחן תנופה לדוגמה — מתמטיקה · הכנה לכיתה ט׳ · נובמבר 2026",
-  "pages": 18,
+  "pages": 17,
   "sheets": [
     [
       1,
@@ -47,8 +47,8 @@
   ],
   "pdf": {
     "file": "STUDENT.pdf",
-    "sha256": "sha256-22e4010cae648014843274aee8f1eca57034866bae937d152b3dab2f56d3cb8c",
-    "pageCount": 18
+    "sha256": "sha256-5610492d576c6fe0178140f65b5cdde6395ca255d699bf0b8b4ae767062ae557",
+    "pageCount": 17
   },
-  "builtAt": "2026-11-12T13:45:31Z"
+  "builtAt": "2026-11-12T14:26:00Z"
 }
