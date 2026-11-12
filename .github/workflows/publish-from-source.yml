@@ -1,0 +1,117 @@
+name: Publish verified Exam 2 from Tnufa
+
+on:
+  push:
+    paths:
+      - .github/workflows/publish-from-source.yml
+  workflow_dispatch:
+  schedule:
+    # Recheck the single source of truth four times a day.
+    - cron: '17 */6 * * *'
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: exam2-pages-publication
+  cancel-in-progress: false
+
+jobs:
+  build-and-publish:
+    if: github.repository == 'yanivmizrachiy/tnufa-exam-2'
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deploy.outputs.page_url }}
+    steps:
+      - name: Checkout the source of truth (Tnufa/main)
+        uses: actions/checkout@v4
+        with:
+          repository: yanivmizrachiy/Tnufa
+          ref: main
+          path: Tnufa
+          persist-credentials: false
+
+      - name: Checkout the publication repository (main)
+        uses: actions/checkout@v4
+        with:
+          ref: main
+          path: site
+          persist-credentials: true
+
+      - name: Detect new source revision
+        id: source
+        shell: bash
+        run: |
+          set -euo pipefail
+          current="$(git -C Tnufa rev-parse HEAD)"
+          published="$(python - <<'PY'
+          import json
+          try:
+              with open('site/SOURCE.json', encoding='utf-8') as f:
+                  print(json.load(f).get('commit', ''))
+          except (FileNotFoundError, ValueError):
+              print('')
+          PY
+          )"
+          echo "source_commit=$current" >> "$GITHUB_OUTPUT"
+          if [ "$current" != "$published" ]; then
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+            echo "Unpublished source: $current"
+          else
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+            echo "No source change; preserving the last verified live build."
+          fi
+
+      - name: Set up Python
+        if: steps.source.outputs.changed == 'true'
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install build dependencies and Chromium
+        if: steps.source.outputs.changed == 'true'
+        shell: bash
+        run: |
+          python -m pip install --upgrade pip
+          pip install playwright pymupdf
+          python -m playwright install --with-deps chromium
+
+      - name: Rebuild exam and run independent scoring audit
+        if: steps.source.outputs.changed == 'true'
+        working-directory: Tnufa
+        run: python exams/tnufa-exam-2/build.py --student --snapshots
+
+      - name: Verify release gate before any write
+        if: steps.source.outputs.changed == 'true'
+        working-directory: Tnufa
+        env:
+          SITE_DIR: ${{ github.workspace }}/site
+        run: python exams/tnufa-exam-2/tools/publish.py --dry-run
+
+      - name: Publish the exact verified artifacts to this repository
+        if: steps.source.outputs.changed == 'true'
+        working-directory: Tnufa
+        env:
+          SITE_DIR: ${{ github.workspace }}/site
+        run: |
+          git config --global user.name "tnufa-exam-2 publisher"
+          git config --global user.email "noreply@github.com"
+          python exams/tnufa-exam-2/tools/publish.py --push-main
+
+      - name: Configure GitHub Pages
+        if: steps.source.outputs.changed == 'true'
+        uses: actions/configure-pages@v5
+
+      - name: Upload the same verified publication to GitHub Pages
+        if: steps.source.outputs.changed == 'true'
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: Tnufa/exams/tnufa-exam-2/public
+
+      - name: Deploy GitHub Pages
+        if: steps.source.outputs.changed == 'true'
+        id: deploy
+        uses: actions/deploy-pages@v4
