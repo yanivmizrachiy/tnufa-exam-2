@@ -3,5 +3,7 @@
 **אין לערוך כאן.** ריפו זה הוא תוצר בנייה בלבד: תוכנו מוחלף כולו בכל הרצה של
 `python exams/tnufa-exam-2/tools/publish.py` בריפו `yanivmizrachiy/Tnufa` (מקור האמת היחיד: `exams/tnufa-exam-2`).
 
-מכיל רק את תוצרי התלמיד: `index.html` (קורא: שער, עמודי החוברת, הדפסה, הורדה), `STUDENT.pdf`, `manifest.json`, `assets/`.
-אין פתרונות ואין מחוון. `SOURCE.json` מציין מאיזה commit במקור נבנה האתר.
+מכיל חוברת תלמיד `STUDENT.pdf` (ללא פתרונות), מחוון תשובות וניקוד בטבלה בתוך `index.html`,
+קובץ `ANSWER_KEY.pdf`, וחוברת `EXAM_WITH_KEY.pdf` עם המחוון בסופה.
+המחוון ציבורי לבקשת בעל המבחן. חוברת המורה המורחבת `private/TEACHER.pdf` אינה מתפרסמת.
+`SOURCE.json` מציין את commit המקור.
